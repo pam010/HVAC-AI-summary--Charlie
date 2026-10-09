@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Journal Entry Template</title>
+  <link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+  <!--
+  THESIS: A reusable operational decision record.
+  OWN-WORLD: Field-service incident runbook with traceable ruled sections.
+  STORY: Replace bracketed placeholders, preserve the confirmed/validation boundary, and always end with one immediate action plus three continuation steps.
+  FIRST VIEWPORT: Date, status, decision, ownership boundary, next action.
+  FORM: Long-form read mode.
+  -->
+  <div class="site-shell">
+    <aside class="rail">
+      <div class="brand-mark" aria-hidden="true">H1</div>
+      <h1>Entry Template</h1>
+      <p class="rail-subtitle">複製本頁，替換中括號內容，再把新 entry 加回首頁。</p>
+      <nav aria-label="主要導覽"><a href="../index.html">← 回總覽</a><a href="template.html" aria-current="page">模板</a></nav>
+      <div class="rail-meta">REUSABLE FORMAT</div>
+    </aside>
+    <main class="stage">
+      <article class="sheet">
+        <header class="masthead">
+          <p class="entry-code">ENTRY [NNN] / [STATUS]</p>
+          <h1 class="display">[本次討論主題]</h1>
+          <p class="lede">[用一段話說明問題、決定與重要性。]</p>
+        </header>
+        <div class="status-line">
+          <div class="status-cell"><span class="label">DATE</span><strong>[YYYY-MM-DD]</strong></div>
+          <div class="status-cell"><span class="label">DECISION</span><strong>[一句話決定]</strong></div>
+          <div class="status-cell"><span class="label">NEXT ACTION</span><strong>[可立即執行的動作]</strong></div>
+        </div>
+        <div class="paper-body">
+          <section class="decision-block"><div class="stamp">FINAL CALL</div><h2>[已確認的核心結論]</h2></section>
+          <section class="section"><div class="section-label">CONTEXT</div><div class="section-content"><h2>為什麼現在討論這件事</h2><p>[背景、觸發事件、觀察到的風險。]</p></div></section>
+          <section class="section"><div class="section-label">DECISION TRAIL</div><div class="section-content"><h2>討論如何收斂</h2><p>[初始想法 → 反例／挑戰 → 修正 → 最終決定。]</p></div></section>
+          <section class="section"><div class="section-label">ARCHITECTURE</div><div class="section-content"><h2>流程與資料</h2><p>[系統流程、欄位、責任與整合點。]</p></div></section>
+          <section class="section"><div class="section-label">SCOPE</div><div class="section-content"><h2>我們負責什麼</h2><p>[成功定義、非目標、下游責任。]</p></div></section>
+          <section class="section"><div class="section-label">RISKS</div><div class="section-content"><h2>還需要驗證什麼</h2><p>[假設、風險、判斷標準。]</p></div></section>
+          <section class="section"><div class="section-label">NEXT ACTION</div><div class="section-content"><h2>一個現在動作，三個延續步驟</h2><div class="action-runway"><div class="action"><div><strong>[現在]</strong><p>[完成條件]</p></div></div><div class="action"><div><strong>[步驟二]</strong><p>[完成條件]</p></div></div><div class="action"><div><strong>[步驟三]</strong><p>[完成條件]</p></div></div><div class="action"><div><strong>[步驟四]</strong><p>[完成條件]</p></div></div></div></div></section>
+        </div>
+        <footer class="footer"><p>[Entry metadata and last updated date]</p></footer>
+      </article>
+    </main>
+  </div>
+</body>
+</html>
+

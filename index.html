@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="HVAC Voice AI 與短通話救援系統的公開產品建置日誌。">
+  <title>HVAC AI Build Journal</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <!--
+  THESIS: This is an operations log, not a marketing landing page.
+  OWN-WORLD: HVAC recovery decisions live inside a field-service incident runbook: deep control-room canvas, warm log sheets, cyan data signals, amber decisions, clipped paper geometry, and traceable ruled sections.
+  STORY: A founder turns fragile AI call handling into an accountable recovery system and records the boundary between automation and the contractor's work.
+  FIRST VIEWPORT: Show the current decision, system status, success definition, and immediate next action before asking the reader to browse entries.
+  FORM: Read mode; compact overview leading into long-form evidence and repeatable dated logs.
+  DIRECTION SEED: 8c80c3ae (degraded roll; grounded candidate 5).
+  -->
+  <div class="site-shell">
+    <aside class="rail">
+      <div class="brand-mark" aria-hidden="true">H1</div>
+      <h1>HVAC AI Build Journal</h1>
+      <p class="rail-subtitle">從通話流失到可追蹤交接：產品決策、驗證與下一步。</p>
+      <nav aria-label="主要導覽">
+        <a href="index.html" aria-current="page">總覽</a>
+        <a href="entries/2026-10-09-short-call-recovery.html">最新日誌</a>
+        <a href="entries/template.html">新增模板</a>
+      </nav>
+      <div class="rail-meta">PUBLIC BUILD LOG<br>TAIPEI · 2026</div>
+    </aside>
+
+    <main class="stage">
+      <article class="sheet">
+        <header class="masthead">
+          <p class="index-code">OPS LOG / HVAC-AI / ACTIVE</p>
+          <h2 class="display">把掛斷的電話，變成可交接的服務請求。</h2>
+          <p class="lede">這裡記錄一套 HVAC Voice AI 系統如何從「只接電話」進化成可救回短通話、留下足夠資訊、並把責任清楚交給業者的 MVP。</p>
+        </header>
+
+        <div class="status-line" aria-label="專案狀態">
+          <div class="status-cell"><span class="label">CURRENT STATUS</span><strong>架構已確認，準備建 MVP</strong></div>
+          <div class="status-cell"><span class="label">SUCCESS UNIT</span><strong>Successfully Handed-Off Request</strong></div>
+          <div class="status-cell"><span class="label">NEXT ACTION</span><strong>在 GHL 建立最小閉環測試</strong></div>
+        </div>
+
+        <div class="paper-body">
+          <section class="decision-block" aria-labelledby="decision-title">
+            <div class="stamp">DECISION / 2026-10-09</div>
+            <h2 id="decision-title">AI 通話中斷不是流程終點；30 秒後啟動一條低摩擦的 SMS 救援路徑。</h2>
+          </section>
+
+          <div class="flow" aria-label="短通話救援流程">
+            <div class="flow-step"><span>SIGNAL</span><strong>短通話且未取得有效需求</strong></div>
+            <div class="flow-step"><span>WAIT</span><strong>掛斷後 30 秒</strong></div>
+            <div class="flow-step"><span>RECOVER</span><strong>SMS + 精簡表單</strong></div>
+            <div class="flow-step"><span>RECORD</span><strong>GHL 建立服務請求</strong></div>
+            <div class="flow-step"><span>HAND OFF</span><strong>指定負責人並送達通知</strong></div>
+          </div>
+
+          <section class="section" aria-labelledby="latest-title">
+            <div class="section-label">LATEST ENTRY</div>
+            <div class="section-content">
+              <h2 id="latest-title">最新決策紀錄</h2>
+              <article class="latest-entry">
+                <div class="date">2026-10-09<br><span class="status">CONFIRMED</span></div>
+                <div>
+                  <h3>Short Call Recovery MVP</h3>
+                  <p>從掛斷條件、簡訊文案、表單欄位、CRM 資料模型到交接 KPI，一次收斂第一版可交付範圍。</p>
+                </div>
+                <a class="arrow-link" href="entries/2026-10-09-short-call-recovery.html">閱讀完整紀錄 →</a>
+              </article>
+            </div>
+          </section>
+
+          <section class="section" aria-labelledby="boundary-title">
+            <div class="section-label">SCOPE BOUNDARY</div>
+            <div class="section-content">
+              <h2 id="boundary-title">這一版交付什麼，也不承諾什麼</h2>
+              <table class="ledger">
+                <tbody>
+                  <tr><th>我們負責</th><td>觸發救援、收集請求、建立 CRM 紀錄、指定 owner、成功送達至少一個通知管道。</td></tr>
+                  <tr><th>業者負責</th><td>真正回電、進一步 qualify、確認時間、派工、報價與成交。</td></tr>
+                  <tr><th>不應宣稱</th><td>表單送出不等於 qualified lead、confirmed booking 或 recovered revenue。</td></tr>
+                  <tr><th>可選追蹤</th><td>Owner acknowledged → Callback completed → Qualified → Booked → Won → Revenue。</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section" aria-labelledby="roadmap-title">
+            <div class="section-label">EXECUTION RUNWAY</div>
+            <div class="section-content">
+              <h2 id="roadmap-title">現在最 practical 的四個動作</h2>
+              <div class="action-runway">
+                <div class="action"><div><strong>建立 GHL 最小資料模型</strong><p>保留 Contact，新增每次 Service Request 的事件紀錄與責任人欄位。</p></div></div>
+                <div class="action"><div><strong>完成 trigger → SMS → form</strong><p>用測試號碼驗證 15 秒短通話、30 秒等待、表單預填與 STOP 文案。</p></div></div>
+                <div class="action"><div><strong>完成 handoff 與失敗備援</strong><p>設定 primary/backup owner、app/SMS/email 通知及 task；整合失敗時仍留在 GHL。</p></div></div>
+                <div class="action"><div><strong>跑 10–20 次情境測試</strong><p>記錄誤觸發、送達、表單完成率與 owner 是否真正看見，再決定是否接 Jobber/HCP。</p></div></div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <footer class="footer"><p>這是一份持續更新的公開產品日誌。內容記錄當下決策，不取代法律、電信合規或客戶營運評估。</p></footer>
+      </article>
+    </main>
+  </div>
+</body>
+</html>
+

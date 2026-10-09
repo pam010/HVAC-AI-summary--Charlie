@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="HVAC Voice AI 短通話救援 MVP：決策、架構、資料、交接與下一步。">
+  <title>2026-10-09 · Short Call Recovery MVP</title>
+  <link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+  <!--
+  THESIS: This entry is an auditable product decision, not a retrospective essay.
+  OWN-WORLD: A field-service incident runbook carries the narrative through ruled sections, data labels, a control-room canvas, and a warm operational log sheet.
+  STORY: Concern about AI hangups becomes a bounded recovery service with a measurable handoff and honest limits.
+  FIRST VIEWPORT: Reveal the date, status, final decision, owner boundary, and next action immediately.
+  FORM: Long-form read mode with dense tables, chronological reasoning, and expandable implementation notes.
+  DIRECTION SEED: 8c80c3ae (degraded roll; grounded candidate 5).
+  -->
+  <div class="site-shell">
+    <aside class="rail">
+      <div class="brand-mark" aria-hidden="true">H1</div>
+      <h1>HVAC AI Build Journal</h1>
+      <p class="rail-subtitle">Decision record: short-call recovery MVP.</p>
+      <nav aria-label="主要導覽">
+        <a href="../index.html">← 回總覽</a>
+        <a href="2026-10-09-short-call-recovery.html" aria-current="page">本篇日誌</a>
+        <a href="template.html">新增模板</a>
+      </nav>
+      <div class="rail-meta">ENTRY 001<br>2026-10-09 · TPE</div>
+    </aside>
+
+    <main class="stage">
+      <article class="sheet">
+        <header class="masthead">
+          <p class="entry-code">ENTRY 001 / DECISION RECORD / CONFIRMED</p>
+          <h1 class="display">Short Call Recovery MVP</h1>
+          <p class="lede">當來電者在聽到 AI 接待後數秒內掛斷，如何保留一條可信、低摩擦、可追蹤的救援路徑，同時不把「收到表單」誤包裝成成交。</p>
+        </header>
+
+        <div class="status-line" aria-label="本篇摘要">
+          <div class="status-cell"><span class="label">DATE</span><strong>2026-10-09</strong></div>
+          <div class="status-cell"><span class="label">DECISION</span><strong>30 秒後 SMS 救援</strong></div>
+          <div class="status-cell"><span class="label">OWNER BOUNDARY</span><strong>成功交接，不負責後續成交</strong></div>
+        </div>
+
+        <div class="paper-body">
+          <section class="decision-block" aria-labelledby="executive-decision">
+            <div class="stamp">FINAL CALL</div>
+            <h2 id="executive-decision">保留 Voice AI，但為「短通話且未留下需求」加上一條 30 秒後啟動的 SMS + 精簡表單救援流程。</h2>
+          </section>
+
+          <section class="section" aria-labelledby="context-title">
+            <div class="section-label">CONTEXT</div>
+            <div class="section-content">
+              <h2 id="context-title">問題不是證明客戶討厭 AI，而是避免高風險流失</h2>
+              <p>最初觀察來自 HVAC 社群：部分消費者不喜歡 AI 聲音，可能在聽到接待員後很快掛斷。這個現象值得處理，但不能直接把短通話解釋成「反 AI」；也可能是誤撥、環境不便、訊號問題、打錯時間或其他原因。</p>
+              <p>因此 MVP 不判斷動機，只把「非常短、且沒有取得有效服務需求的 inbound call」視為高流失風險訊號，提供一次簡潔的替代入口。</p>
+              <div class="note"><strong>關鍵修正</strong>不要把來電者標記為粗魯或不合作。系統應回應可觀察行為，而不是猜測原因。</div>
+            </div>
+          </section>
+
+          <section class="section" aria-labelledby="trail-title">
+            <div class="section-label">DECISION TRAIL</div>
+            <div class="section-content">
+              <h2 id="trail-title">討論如何逐步收斂</h2>
+              <div class="timeline">
+                <div class="timeline-item"><h3>起點：AI 掛斷後用照片表單補救</h3><p>讓不想繼續聽 AI 的人改用簡訊連結描述問題並上傳現場照片，避免需求完全消失。</p></div>
+                <div class="timeline-item"><h3>壓力測試：照片不能成為門檻</h3><p>照片有幫助，但不是每個 HVAC 問題都拍得出來；強制上傳反而提高流失。結論改為 optional evidence。</p></div>
+                <div class="timeline-item"><h3>承諾修正：提供回電區間，不假裝即時人工</h3><p>系統可以立即確認「已收到」，但只能提供可信的預估回電窗口，不能暗示業主已經在處理或承諾精確時間。</p></div>
+                <div class="timeline-item"><h3>資料修正：保留原始號碼與偏好回電號碼</h3><p>GHL 自動保存 Original Caller Phone；表單顯示可編輯的 Preferred Callback Phone，兩者不互相覆寫。</p></div>
+                <div class="timeline-item"><h3>範圍收斂：交接成功就是核心交付</h3><p>Agency 的成功不是 qualify 或 booking，而是請求被建立、指派，且至少一個通知管道送達。</p></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section" aria-labelledby="flow-title">
+            <div class="section-label">MVP FLOW</div>
+            <div class="section-content">
+              <h2 id="flow-title">最小閉環流程</h2>
+              <div class="flow" aria-label="MVP 短通話救援流程">
+                <div class="flow-step"><span>01</span><strong>Inbound call ≤ 約 15 秒，未取得有效需求</strong></div>
+                <div class="flow-step"><span>02</span><strong>等待 30 秒，排除立即重撥</strong></div>
+                <div class="flow-step"><span>03</span><strong>送出單一 CTA 的救援 SMS</strong></div>
+                <div class="flow-step"><span>04</span><strong>完成精簡表單，建立 Service Request</strong></div>
+                <div class="flow-step"><span>05</span><strong>指派 owner、通知送達、進入回撥佇列</strong></div>
+              </div>
+              <h3>建議簡訊</h3>
+              <div class="message-copy"><span class="label">RECOVERY SMS</span>Hi, this is {{business.name}}. It looks like our call was disconnected. If you need HVAC service, you can send us the details and photos here: {{link}}. If not, please disregard. Reply STOP to opt out.</div>
+              <p>簡訊只有一個主要動作。即使使用者主觀上不想看到額外指令，仍保留 STOP，因為美國商業簡訊需要把同意、識別與退訂機制納入實際合規設計。正式上線前仍需依號碼類型、註冊方式、訊息類型與當地法規審查。</p>
+            </div>
+          </section>
+
+          <section class="section" aria-labelledby="form-title">
+            <div class="section-label">FORM + DATA</div>
+            <div class="section-content">
+              <h2 id="form-title">表單要短，但後台紀錄要完整</h2>
+              <h3>使用者看得到的欄位</h3>
+              <table class="ledger">
+                <tbody>
+                  <tr><th>必填</th><td>What’s happening with your HVAC system?</td></tr>
+                  <tr><th>必填</th><td>Service ZIP code</td></tr>
+                  <tr><th>選填</th><td>Photos（僅為輔助資訊）</td></tr>
+                  <tr><th>預填、可改</th><td>Best callback phone</td></tr>
+                  <tr><th>選填</th><td>Preferred callback time</td></tr>
+                </tbody>
+              </table>
+
+              <h3>後台自動保存</h3>
+              <p>GHL Contact ID、Service Request ID、Original Caller Phone、Preferred Callback Phone、Call ID、通話時間與長度、來源 Short Call Recovery、狀態 New、建立時間、預估回電窗口、Business Location ID，以及 AI 可產生的 problem summary、category、priority、safety flag。</p>
+
+              <div class="note"><strong>電話與隱私設計</strong>不要把原始電話號碼裸放在 URL。優先使用 GHL contact context／trigger link；若未來自建頁面，使用具有效期的 signed token。</div>
+              <p>照片區應提醒使用者不要為了拍攝而進入危險區域；若有煙、火、瓦斯味或明顯電氣危險，應優先離開現場並聯絡緊急服務。此表單不是緊急通報管道。</p>
+            </div>
+          </section>
+
+          <section class="section" aria-labelledby="database-title">
+            <div class="section-label">SOURCE OF TRUTH</div>
+            <div class="section-content">
+              <h2 id="database-title">前 5–10 個客戶先用 GHL，不急著加 Supabase</h2>
+              <table class="ledger">
+                <tbody>
+                  <tr><th>Contact</th><td>代表 homeowner；保留基本身份、主要電話與地址。</td></tr>
+                  <tr><th>Service Request</th><td>每一次服務事件獨立保存。優先評估 GHL Custom Object；若既有 pipeline 足夠，也可先以 Opportunity 實作。</td></tr>
+                  <tr><th>不可做法</th><td>不要把每次 HVAC 問題都覆寫到 Contact 同一組 custom fields，否則會失去事件歷史。</td></tr>
+                  <tr><th>Supabase 進場點</th><td>跨 sub-account 分析、自訂客戶 portal、照片 AI／儲存、複雜查詢、資料可攜性或 GHL 限制真的出現時。</td></tr>
+                </tbody>
+              </table>
+              <p>Supabase 的免費層可以做原型，但仍帶來多租戶權限、RLS、備份、維運與停用策略等新責任。MVP 先證明救援流程有使用價值，再決定是否承擔第二套資料層。</p>
+            </div>
+          </section>
+
+          <section class="section" aria-labelledby="handoff-title">
+            <div class="section-label">HANDOFF</div>
+            <div class="section-content">
+              <h2 id="handoff-title">交付給負責人的方式，取決於客戶原本怎麼工作</h2>
+              <table class="ledger">
+                <tbody>
+                  <tr><th>沒有成熟 FSM</th><td>以 LeadConnector mobile app 作為工作台；搭配 GHL Task、in-app push、internal SMS 與 email。</td></tr>
+                  <tr><th>已有 Jobber / Housecall Pro</th><td>把 Request／Lead 推入既有系統。GHL 仍保留原始 intake、同步狀態、任務與備援通知。</td></tr>
+                  <tr><th>ServiceTitan / FieldEdge / 其他</th><td>先做整合評估與報價，不假設每個 connector 能傳完整欄位與附件。</td></tr>
+                  <tr><th>美國業主預設</th><td>SMS／push 負責即時注意，GHL task/request 負責追蹤責任，email 負責完整內容與存檔。WeChat 不作為預設。</td></tr>
+                </tbody>
+              </table>
+              <p>每個客戶導入時必須指定 Primary Callback Owner 與 Backup Owner。若第三方整合失敗，請求不能消失：仍需留在 GHL、建立 task，並走 SMS／email 備援。</p>
+              <p>整合紀錄至少保留 External System、External Request ID、Sync Status、Synced At、Sync Error。對 Jobber，官方 GHL 整合可同步部分 client fields，但 custom fields、notes 與 attachments 有限制；照片與完整 request 內容可能需要 Marketplace connector、webhook 或 API。人員確認前不要自動建立 Job 或 Appointment。</p>
+            </div>
+          </section>
+
+          <section class="section" aria-labelledby="promise-title">
+            <div class="section-label">SERVICE PROMISE</div>
+            <div class="section-content">
+              <h2 id="promise-title">立即確認收到，合理說明何時回電</h2>
+              <p>表單送出後可以立刻顯示已收到，但回電承諾要由每個客戶的真實營運能力決定。MVP 可使用固定窗口，例如：</p>
+              <ul>
+                <li>營業時間內：預計 1–2 小時內回電。</li>
+                <li>非營業時間：下一個營業日上午回電。</li>
+              </ul>
+              <p>這是 acknowledgement 和 expected callback window，不是 confirmed appointment。若業者無法穩定達成，就必須把窗口放寬。</p>
+            </div>
+          </section>
+
+          <section class="section" aria-labelledby="metric-title">
+            <div class="section-label">KPI CONTRACT</div>
+            <div class="section-content">
+              <h2 id="metric-title">Agency 的成功單位：Successfully Handed-Off Request</h2>
+              <p>以下五個條件全部成立，才算核心交付完成：</p>
+              <ol>
+                <li>符合 short-call recovery 條件。</li>
+                <li>使用者送出 recovery form。</li>
+                <li>CRM 成功建立 service request。</li>
+                <li>Primary owner 已指派。</li>
+                <li>至少一個通知管道確認送達。</li>
+              </ol>
+              <p>後續 Owner acknowledged → Callback completed → Qualified → Appointment booked → Job won → Revenue 可由 agency 選擇性追蹤，用來做 ROI 與銷售案例，但不是核心交付成立的前置條件。</p>
+              <div class="message-copy"><span class="label">PITCH EXAMPLE</span>Last month, 28 callers hung up before completing AI intake. We captured 9 service requests and delivered them to your team. Your team contacted 7 and booked 4.</div>
+              <p>這個說法把「我們救回並送達什麼」與「客戶團隊後續轉化什麼」分開，不把 recovered request 誤稱為 qualified lead。</p>
+            </div>
+          </section>
+
+          <section class="section" aria-labelledby="packages-title">
+            <div class="section-label">DELIVERY TIERS</div>
+            <div class="section-content">
+              <h2 id="packages-title">先產品化共同核心，再按客戶軟體加價</h2>
+              <table class="ledger">
+                <tbody>
+                  <tr><th>Standard — GHL Only</th><td>Recovery SMS、form、Service Request、owner assignment、task、app/SMS/email 通知。</td></tr>
+                  <tr><th>Connected — Jobber / HCP</th><td>在 Standard 之上加入已驗證的 Request/Lead connector 與同步監控。</td></tr>
+                  <tr><th>Custom — Enterprise FSM</th><td>ServiceTitan、FieldEdge 或其他特殊系統；先 discovery，再估價與交付。</td></tr>
+                </tbody>
+              </table>
+              <p>不要為尚未付費的假想客戶預先打造所有 connector。第一個整合應由真實客戶需求決定。</p>
+            </div>
+          </section>
+
+          <section class="section" aria-labelledby="risk-title">
+            <div class="section-label">RISKS TO VALIDATE</div>
+            <div class="section-content">
+              <h2 id="risk-title">上線前不能只驗證「workflow 跑完」</h2>
+              <details open><summary>觸發準確性</summary><div>短通話門檻是否誤傷有效來電？是否排除 voicemail、spam、立即重撥與已成功留下需求的通話？需要真實 call logs 驗證。</div></details>
+              <details><summary>簡訊與合規</summary><div>確認發送身分、A2P／號碼註冊、同意基礎、安靜時段、STOP 處理與品牌識別。電信商過濾與法規責任不能靠文案單獨解決。</div></details>
+              <details><summary>資料與重複事件</summary><div>同一 contact 在短時間內多次致電／填表時，應建立新 request、合併事件或避免重複通知？MVP 需明確 idempotency 規則。</div></details>
+              <details><summary>Owner 真正看見</summary><div>Workflow 顯示 executed 不等於人已看見。要測試 notification delivery、失敗備援，以及 Primary/Backup 的實際工作方式。</div></details>
+              <details><summary>回電承諾可信度</summary><div>每位客戶必須簽認營業時間與 callback SLA；系統不能自行推導一個業者無法做到的時間。</div></details>
+            </div>
+          </section>
+
+          <section class="section" aria-labelledby="tools-title">
+            <div class="section-label">TOOLS + EVIDENCE</div>
+            <div class="section-content">
+              <h2 id="tools-title">MVP 需要的工具與官方資料</h2>
+              <ul class="source-list">
+                <li><span>GHL VOICE</span><a href="https://help.gohighlevel.com/support/solutions/articles/155000006632">Voice/Transcript Generated workflow trigger</a></li>
+                <li><span>GHL CALL</span><a href="https://help.gohighlevel.com/support/solutions/articles/48001212511">Call Details workflow trigger</a></li>
+                <li><span>GHL UPLOAD</span><a href="https://help.gohighlevel.com/support/solutions/articles/48001171922-adding-files-to-contacts-using-a-custom-field">File upload custom field</a></li>
+                <li><span>GHL OBJECTS</span><a href="https://help.gohighlevel.com/support/solutions/articles/155000003897">Custom Objects overview</a> · <a href="https://help.gohighlevel.com/support/solutions/articles/155000006631-custom-objects-in-all-plans-higher-limit">availability and limits</a></li>
+                <li><span>GHL NOTIFY</span><a href="https://help.gohighlevel.com/support/solutions/articles/155000003202">Internal notifications</a> · <a href="https://help.gohighlevel.com/support/solutions/articles/48001224427-manage-notification-settings-in-a-sub-account">user notification settings</a></li>
+                <li><span>GHL MERGE</span><a href="https://help.gohighlevel.com/support/solutions/articles/48001078171-list-of-custom-values-merge-fields">Custom values and merge fields</a></li>
+                <li><span>JOBBER</span><a href="https://help.gohighlevel.com/support/solutions/articles/155000005429-how-to-integrate-jobber-with-highlevel">GHL–Jobber integration</a> · <a href="https://help.getjobber.com/en/articles/request-basics/">Jobber Request basics</a></li>
+                <li><span>MESSAGING</span><a href="https://www.twilio.com/en-us/legal/messaging-policy">Twilio Messaging Policy</a> · <a href="https://help.twilio.com/articles/1260803966670-How-do-I-prevent-my-Twilio-messages-from-being-filtered-blocked-">filtering guidance</a> · <a href="https://docs.fcc.gov/public/attachments/FCC-24-24A1.pdf">FCC order</a></li>
+                <li><span>SUPABASE</span><a href="https://supabase.com/docs/guides/platform/billing-on-supabase">Billing documentation</a> · <a href="https://supabase.com/pricing">pricing</a></li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="section" aria-labelledby="next-title">
+            <div class="section-label">NEXT ACTION</div>
+            <div class="section-content">
+              <h2 id="next-title">下一步不是再加功能，而是跑通一個真實閉環</h2>
+              <div class="action-runway">
+                <div class="action"><div><strong>現在：建立 GHL 測試版資料模型</strong><p>建立 Service Request（Custom Object 或 Opportunity prototype）、owner 欄位、原始／偏好電話、source、status、通知紀錄與 sync metadata。</p></div></div>
+                <div class="action"><div><strong>接著：完成 30 秒救援 workflow</strong><p>設定 trigger guard、SMS、短表單、acknowledgment 與可信 callback window；使用自己的電話做端到端測試。</p></div></div>
+                <div class="action"><div><strong>再來：驗證 handoff 與備援</strong><p>確認 Primary/Backup owner、LeadConnector、task、SMS、email 真正送達；故意製造一個 connector 失敗情境。</p></div></div>
+                <div class="action"><div><strong>最後：跑 10–20 組測試並定版 MVP</strong><p>涵蓋短掛斷、誤撥、重撥、無需求、表單未完成、照片上傳、不同回電號碼與 after-hours，再用結果決定門檻和第一個付費 connector。</p></div></div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <footer class="footer"><p>Entry 001 · 記錄當下已確認決策與待驗證風險。最後更新：2026-10-09。</p></footer>
+      </article>
+    </main>
+  </div>
+</body>
+</html>
+
